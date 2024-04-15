@@ -1,7 +1,7 @@
 
 <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="left">
-        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"></button>
+        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="showDialog()"></button>
         <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" [disabled]="!selectedProducts || !selectedProducts.length"></button>
     </ng-template>
 </p-toolbar>
@@ -65,3 +65,142 @@
         </ng-template>
     </p-table>
 </div>
+
+
+<p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <div class="grid p-fluid  flex ">
+                    <div class="container main-container">
+            
+                        <h3>Novo Produto </h3>
+                    
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <form [formGroup]="pForm"  enctype="multipart/form-data" (ngSubmit)="adicionarProduto()" >
+                                   
+                                    <!-- <div class="form-group">
+                                        <label class="control-label">Categoria</label>
+                                        <select class="form-control" id="fornecedorId" formControlName="fornecedorId" >
+                                            <option *ngFor="let fornecedor of fornecedores" value="{{ fornecedor.id }}">{{ fornecedor.nome }}</option>
+                                        </select>
+                                        <span class="text-danger" *ngIf="displayMessage.fornecedorId">
+                                            <p [innerHTML]="displayMessage.fornecedorId"></p>
+                                        </span>
+                                    </div> -->
+                    
+                                    <div class="form-group">
+                                        <label class="control-label">Nome</label>
+                                        <div>
+                                            <input class="form-control" id="nome" type="text" placeholder="Nome (requerido)" formControlName="nome" />
+                                        </div>
+                                    </div>
+                    
+                                    <div class="form-group">
+                                        <label class="control-label">Descrição</label>
+                                        <div>
+                                            <textarea cols="40" rows="5" maxlength="1000" class="form-control" id="descricao" placeholder="Descrição (requerido)" formControlName="descricao"></textarea>
+                                        </div>
+                                    </div>
+                    
+                                    <!-- <div class="form-group">
+                                        <label class="control-label">Imagem do Produto</label>
+                    
+                                        <div class="custom-file">
+                                            <input type="file" accept="image/jpeg,image/png" class="custom-file-input" id="imagem" formControlName="imagem" (change)="fileChangeEvent($event)">
+                                            <label data-browse="Procurar" style="width: 400px" class="custom-file-label"></label>
+                                            <span *ngIf='imagemNome'><br>{{ imagemNome }}<br></span>
+                                        </div>
+                    
+                                        <div *ngIf='imagemNome' class="row">
+                                            <div class="col col-md-6">
+                                                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false" [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="4 / 3" [resizeToWidth]="256" [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false"
+                                                    [canvasRotation]="canvasRotation" [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady($event)"
+                                                    (loadImageFailed)="loadImageFailed()"></image-cropper>
+                                            </div>
+                                            <div class="col col-md-6">
+                                                <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
+                                            </div>
+                                        </div>
+                                    </div> -->
+                    
+                                    <div class="form-group">
+                                        <label class="control-label">Valor</label>
+                                        <div>
+                                            <input class="form-control" id="valor" type="text" placeholder="Valor (requerido)" formControlName="valor" />
+                                        </div>
+                                    </div>
+                    
+                                    <div class="form-group form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" id="ativo" formControlName="ativo" name="ativo" value="true"> Ativo?
+                                        </label>
+                                    </div>
+                    
+                                    <div class="form-group">
+                                        <input type="submit" id="cadastroProduto" value="Cadastrar" class="btn btn-primary">&nbsp;
+                                        <a class="btn btn-info" href="/produtos/listar-todos">Voltar</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div> 
+                
+                </div>
+                <h5>InputText</h5>
+                <div class="grid formgrid">
+                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                        <input type="text" pInputText placeholder="Default">
+                    </div>
+                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                        <input type="text" pInputText placeholder="Disabled" [disabled]="true"/>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                        <input type="text" pInputText placeholder="Invalid" class="ng-dirty ng-invalid"/>
+                    </div>
+                </div>
+    
+                <h5>Icons</h5>
+                <div class="grid formgrid">
+                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-user"></i>
+                            <input type="text" pInputText placeholder="Username"/>
+                        </span>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                        <span class="p-input-icon-right">
+                            <input type="text" pInputText placeholder="Search"/>
+                            <i class="pi pi-search"></i>
+                        </span>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                        <span class="p-input-icon-left p-input-icon-right">
+                            <i class="pi pi-user"></i>
+                            <input type="text" pInputText placeholder="Search"/>
+                            <i class="pi pi-search"></i>
+                        </span>
+                    </div>
+                </div>
+    
+                <h5>Float Label</h5>
+                <span class="p-float-label">
+                    <input id="float-input" type="text" pInputText>
+                    <label for="float-input">Username</label>
+                </span>
+    
+                <h5>Textarea</h5>
+                <textarea rows="5" cols="30" placeholder="Your Message" pInputTextarea></textarea>
+    
+                <h5>AutoComplete</h5>
+                <p-autoComplete   field="name" [dropdown]="true">
+                </p-autoComplete>
+            </div>
+        </div>
+    </div>
+
+    
+</p-dialog>

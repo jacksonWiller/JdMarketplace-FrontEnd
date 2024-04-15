@@ -13,9 +13,9 @@ const produtoRouterConfig: Routes = [
     {
         path: '', component: ProdutoAppComponent,
         children: [
-            { path: 'listar-todos', component: ListaComponent },
+            { path: 'listar', component: ListaComponent },
             {
-                path: 'adicionar-novo', component: NovoComponent,
+                path: 'novo', component: NovoComponent,
             },
             {
                 path: 'editar/:id', component: EditarComponent,
