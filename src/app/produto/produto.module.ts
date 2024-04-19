@@ -107,6 +107,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 import { MessageService } from 'primeng/api';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 
 @NgModule({
   declarations: [
@@ -216,6 +218,7 @@ import { MessageService } from 'primeng/api';
     CardModule,
     RippleModule,
     StyleClassModule,
+    FlexLayoutModule
   ],
   providers: [
     ProdutoService,

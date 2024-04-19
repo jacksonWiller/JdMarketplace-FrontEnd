@@ -12,8 +12,9 @@ export class ProdutoService extends BaseService {
 
 
     //http://localhost:5001/api/Produto/ObterProdutos?Quantidade=1&Pagina=0
-    UrlServiceV1: 'http://localhost:5001/api/';
     constructor(private http: HttpClient) { super() }
+
+    public UrlServiceV1: "http://localhost:5001/api/";
 
     obterTodos(): Observable<Produto[]> {
         return this.http
@@ -29,7 +30,7 @@ export class ProdutoService extends BaseService {
 
     novoProduto(produto: Produto): Observable<Produto> {
         return this.http
-            .post(this.UrlServiceV1 + "produto", produto)
+            .post("http://localhost:5001/api/produto/criar", produto)
             .pipe(
                 map(super.extractData),
                 catchError(super.serviceError));

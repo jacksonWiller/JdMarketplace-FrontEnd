@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Observable, fromEvent, merge } from 'rxjs';
 import { CurrencyUtils } from 'src/app/utils/currency-utils';
 import { ProdutoBaseComponent } from '../produto-form.base.component';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -32,13 +33,26 @@ export class ListaComponent implements OnInit {
       this.visible = true;
   }
 
+  closeDialog() {
+    this.visible = false;
+  } 
+
+  reloadComponent() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      this.router.navigate([currentUrl]);
+    });
+  }
   adicionarProduto() {
     if (this.pForm.dirty && this.pForm.valid) {
       this.produto = Object.assign({}, this.produto, this.pForm.value);
-
       this.produtoService.novoProduto(this.produto)
         .subscribe({
-          next: (sucesso: any) => {  },
+          next: (sucesso: any) => {
+            this.closeDialog();
+            this.reloadComponent();
+
+          },
         });
 
     }
