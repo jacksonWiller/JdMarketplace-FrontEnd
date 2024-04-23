@@ -25,7 +25,7 @@
                 </span>
             </div>
         </ng-template>
-        <!-- <ng-template pTemplate="header">
+        <ng-template pTemplate="header">
             <tr class="none mat-row">
                 <th style="width: 4rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
@@ -38,30 +38,10 @@
                 <th pSortableColumn="inventoryStatus" style="min-width:10rem">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
                 <th></th>
             </tr>
-        </ng-template> -->
+        </ng-template>
         <ng-template pTemplate="body" let-product>
             <tr>
-                <div class="ui-widget-header" style="padding:4px 10px; border-bottom: 0 none;">
-                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                    <input type="text" pInputText size="50" placeholder="Year Filter" (change)="dt.filter(yearFilter.value,'year','contains')" #yearFilter>
-                </div>
-                <p-dataTable #dt [value]="cars1" selectionMode="single" [(selection)]="selectedCar"
-                    [paginator]="true" [rows]="10" [responsive]="true">
-                    <p-header>List of Cars</p-header>
-                    <p-column field="vin" header="Vin" [sortable]="true"></p-column>
-                    <p-column field="year" header="Year" [sortable]="true"></p-column>
-                    <p-column field="brand" header="Brand" [sortable]="true"></p-column>
-                    <p-column field="color" header="Color" [sortable]="true"></p-column>
-                </p-dataTable>
-                <!-- <div class="card flex justify-content-center">
-                    <p-card header="Title">
-                        <p class="m-0">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
-                            quas!
-                        </p>
-                    </p-card>
-                </div> -->
-                <!-- <td class="mat-cell has_label_on_mobile">
+                <td class="mat-cell has_label_on_mobile">
                     <p-tableCheckbox [value]="product"></p-tableCheckbox>
                 </td>
                 <td class="mat-cell">{{ product.nome }}</td>
@@ -75,7 +55,7 @@
                 <td class="mat-cell">
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" ></button>
-                </td> -->
+                </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
@@ -85,6 +65,11 @@
         </ng-template>
     </p-table>
 </div>
+
+
+<!-- Cards -->
+
+
 
 
 <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">

@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
 import { BaseService } from 'src/app/services/base.service';
-import { Produto, Fornecedor } from '../models/produto';
+import { Produto, Fornecedor, ApiResponse, ProdutosResponse } from '../models/produto';
 
 @Injectable()
 export class ProdutoService extends BaseService {
@@ -16,10 +16,18 @@ export class ProdutoService extends BaseService {
 
     public UrlServiceV1: "http://localhost:5001/api/";
 
-    obterTodos(): Observable<Produto[]> {
+    obterTodos2(): Observable<Produto[]> {
         return this.http
-            .get<Produto[]>("http://localhost:5001/api/Produto/ObterProdutos?Quantidade=10&Pagina=0", super.ObterAuthHeaderJson())
+            .get<Produto[]>("http://localhost:5001/api/Produto/ObterTodos?Quantidade=5&Pagina=2", super.ObterAuthHeaderJson())
             .pipe(catchError(super.serviceError));
+    }
+
+    obterTodos(): Observable<ApiResponse<ProdutosResponse>> {
+        return this.http
+            .get<ApiResponse<ProdutosResponse>>("http://localhost:5001/api/Produto/ObterTodos?Quantidade=5&Pagina=2", super.ObterAuthHeaderJson())
+            .pipe(
+                catchError(super.serviceError)
+            );
     }
 
     obterPorId(id: string): Observable<Produto> {

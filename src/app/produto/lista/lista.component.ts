@@ -37,6 +37,22 @@ export class ListaComponent implements OnInit {
     this.visible = false;
   } 
 
+  ObterProdutos() {
+    this.produtoService.obterTodos()
+  .subscribe(
+    response => {
+      if (response && response.result && response.result.produtos) {
+        this.produtos = response.result.produtos;
+      } else {
+        this.errorMessage = 'Nenhum produto encontrado';
+      }
+    },
+    error => {
+      this.errorMessage = error;
+    }
+  );
+  } 
+
   reloadComponent() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
@@ -67,22 +83,8 @@ export class ListaComponent implements OnInit {
       ativo: [true]
     });
 
-
-    this.produtoService.obterTodos()
-      .subscribe(
-        produtos => {
-          if (produtos) {
-            this.produtos = produtos;
-          } else {
-            this.errorMessage = 'Nenhum produto encontrado';
-          }
-        },
-        error => {
-          if (error) {
-            this.errorMessage = error;
-          }
-        }
-      );
+    this.ObterProdutos();
+  
 }
   
 }
