@@ -96,3 +96,33 @@ $gutter: 1rem; //for primeflex grid system
       }
     }
 }
+
+mat-card:hover .selection {
+  opacity: 1;
+}
+mat-card.mat-elevation-z4 .selection {
+  opacity: 1;
+}
+.card-selected {
+  border: 2px solid #283593;
+  
+}
+
+.selection {
+  opacity: 0;
+  cursor: pointer;
+  color: #283593;
+  background: #fff;
+  position: absolute;
+  right:-10px;
+  top:-10px;
+  border-radius: 100%;
+  height: 24px;
+  width: 24px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+  
+}

@@ -68,7 +68,7 @@ export class EditarComponent extends ProdutoBaseComponent implements OnInit {
 
       if (this.imageBase64) {
         this.produto.imagemUpload = this.imageBase64;
-        this.produto.imagem = this.imagemNome;
+        this.produto.imagemURL = this.imagemNome;
       }
 
 

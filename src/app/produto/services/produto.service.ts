@@ -1,30 +1,35 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 
 import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
 import { BaseService } from 'src/app/services/base.service';
-import { Produto, Fornecedor, ApiResponse, ProdutosResponse } from '../models/produto';
+import { Produto, Fornecedor, ApiResponse, ProdutosResponse, Pagina } from '../models/produto';
+import { environment } from "src/environments/environment";
 
 @Injectable()
 export class ProdutoService extends BaseService {
 
-
-    //http://localhost:5001/api/Produto/ObterProdutos?Quantidade=1&Pagina=0
+    public UrlServiceV1 = environment.apiURL + "/api/";
     constructor(private http: HttpClient) { super() }
 
-    public UrlServiceV1: "http://localhost:5001/api/";
+    // obterTodos2(): Observable<Produto[]> {
+    //     return this.http
+    //         .get<Produto[]>("http://localhost:5001/api/Produto/ObterTodos?Quantidade=5&Pagina=2", super.ObterAuthHeaderJson())
+    //         .pipe(catchError(super.serviceError));
+    // }
 
-    obterTodos2(): Observable<Produto[]> {
+    obterTodos(pagina: Pagina): Observable<ApiResponse<ProdutosResponse>> {
+        const params = new HttpParams()
+            .set('QuantidadeItens', pagina.quantidade.toString())
+            .set('Pagina', pagina.pagina.toString());
+    
         return this.http
-            .get<Produto[]>("http://localhost:5001/api/Produto/ObterTodos?Quantidade=5&Pagina=2", super.ObterAuthHeaderJson())
-            .pipe(catchError(super.serviceError));
-    }
-
-    obterTodos(): Observable<ApiResponse<ProdutosResponse>> {
-        return this.http
-            .get<ApiResponse<ProdutosResponse>>("http://localhost:5001/api/Produto/ObterTodos?Quantidade=5&Pagina=2", super.ObterAuthHeaderJson())
+            .get<ApiResponse<ProdutosResponse>>(`${this.UrlServiceV1}produto/obter-todos`, {
+                headers: this.ObterAuthHeaderJson(),
+                params: params
+            })
             .pipe(
                 catchError(super.serviceError)
             );
@@ -46,7 +51,7 @@ export class ProdutoService extends BaseService {
 
     atualizarProduto(produto: Produto): Observable<Produto> {
         return this.http
-            .put(this.UrlServiceV1 + "produto/" + produto.id, produto, super.ObterAuthHeaderJson())
+            .put(this.UrlServiceV1 + "produto/" + produto.id, produto,)
             .pipe(
                 map(super.extractData),
                 catchError(super.serviceError));
@@ -66,3 +71,4 @@ export class ProdutoService extends BaseService {
             .pipe(catchError(super.serviceError));
     }
 }
+

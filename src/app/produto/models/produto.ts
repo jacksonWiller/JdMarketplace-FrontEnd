@@ -2,7 +2,7 @@ export interface Produto {
   id: string,
   nome: string,
   descricao: string,
-  imagem: string,
+  imagemURL: string,
   imagemUpload: string;
   valor: number,
   dataCadastro: string,
@@ -23,7 +23,7 @@ export interface Categoria{
   nome: string,
 }
 
-export class ApiResponse<T> {
+export interface ApiResponse<T> {
   result: T;
   success: boolean;
   successMessage: string;
@@ -33,4 +33,12 @@ export class ApiResponse<T> {
 
 export class ProdutosResponse {
   produtos: Produto[];
+  total: number;
+  pagina: number
+}
+
+
+export interface Pagina {
+  quantidade: number;
+  pagina: number;
 }

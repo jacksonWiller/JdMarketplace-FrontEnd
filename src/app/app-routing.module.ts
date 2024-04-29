@@ -11,7 +11,7 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                 children: [
                     { path: '', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
                     {
-                        path: 'produtos',
+                        path: 'produto',
                         loadChildren: () => import('./produto/produto.module')
                           .then(m => m.ProdutoModule)
                     },

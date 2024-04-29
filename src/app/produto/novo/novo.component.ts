@@ -51,7 +51,7 @@ export class NovoComponent extends ProdutoBaseComponent implements OnInit {
       this.produto = Object.assign({}, this.produto, this.pForm.value);
 
       this.produto.imagemUpload = this.croppedImage.split(',')[1];
-      this.produto.imagem = this.imagemNome;
+      this.produto.imagemURL = this.imagemNome;
 
       this.produtoService.novoProduto(this.produto)
         .subscribe({

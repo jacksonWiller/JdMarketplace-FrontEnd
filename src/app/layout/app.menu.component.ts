@@ -17,8 +17,8 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Meus Produtos',
                 items: [
-                    { label: 'Listar Produtos', icon: 'pi pi-fw pi-home', routerLink: ['/produtos/listar-todos'] },
-                    { label: 'Listar Produtos', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },
+                    { label: 'Listar Produtos', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
+                    { label: 'Listar Produtos', icon: 'pi pi-fw pi-id-card', routerLink: ['/produto/listar'] },
                 ]
             },
            
