@@ -3,13 +3,7 @@ import { Pagina, Produto } from '../models/produto';
 import { ProdutoService } from '../services/produto.service';
 import { FormBuilder, Validators, FormControlName, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, fromEvent, merge } from 'rxjs';
-import { CurrencyUtils } from 'src/app/utils/currency-utils';
-import { ProdutoBaseComponent } from '../produto-form.base.component';
-import { MessageService } from 'primeng/api';
 import { environment } from "src/environments/environment";
-import { Paginator } from 'primeng/paginator';
-
 
 @Component({
   selector: 'app-lista',
@@ -21,6 +15,20 @@ export class ListaComponent implements OnInit {
   public produto: Produto;
   public UrlServiceV1 = environment.apiURL;
   public pagina: Pagina;
+
+  first3: number = 1;
+
+  rows3: number = 5;
+
+  public page: PageEvent = {
+    first: 0,
+    rows: 5,
+    page: 0,
+    pageCount: 0
+  };
+  
+
+  totalRecords: number;
 
 
   public imagemProduto: "https://localhost:44300/Resources/Images/0765ea65-c210-48d5-8356-39ee898aa0cd.jpg";
@@ -35,20 +43,16 @@ export class ListaComponent implements OnInit {
 
   visible: boolean = false;
 
-  first: number = 0;
+  first: number = 1;
 
     rows: number = 10;
 
-    onPageChange(event: PageEvent) {
-        this.first = event.first;
-        this.rows = event.rows;
-    }
 
-  public mostraImagem(imagemURL: string): string {
-    return (imagemURL !== '')
-      ? `${environment.apiURL}${imagemURL}`
-      : 'assets/img/semImagem.jpeg';
-  }
+    public mostraImagem(imagemURL: string): string {
+      return (imagemURL !== '' && imagemURL != null)
+        ? `${environment.apiURL}${imagemURL}`
+        : 'assets/layout/images/nocontent.png';
+    }
 
   showDialog() {
       this.visible = true;
@@ -69,13 +73,13 @@ export class ListaComponent implements OnInit {
   }
 
   public paginaAtual: number = 1;
-  public itensPorPagina: number = 9;
+  public itensPorPagina: number = 5;
   totalRegistros: number = 0;
 
   ObterProdutos() {
     const params: Pagina = {
-        quantidade: this.itensPorPagina,
-        pagina: this.paginaAtual
+        quantidade: this.page.rows,
+        pagina: this.page.page
     };
 
     this.produtoService.obterTodos(params)
@@ -84,6 +88,7 @@ export class ListaComponent implements OnInit {
                 if (response.success && response.result && 'produtos' in response.result) {
                     this.produtos = response.result.produtos;
                     this.totalRegistros = response.result.total; // Atualize o total de registros aqui
+                    this.totalRecords = response.result.total;
                     if (this.produtos.length === 0) {
                         this.errorMessage = 'Nenhum produto encontrado';
                     }
@@ -95,7 +100,7 @@ export class ListaComponent implements OnInit {
                 this.errorMessage = error.message || 'Erro desconhecido';
             }
         );
-}
+  }
 
   reloadComponent() {
     let currentUrl = this.router.url;
@@ -119,7 +124,6 @@ export class ListaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.pForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(200)]],
       descricao: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(1000)]],
@@ -128,9 +132,14 @@ export class ListaComponent implements OnInit {
     });
 
     this.ObterProdutos();
+    console.log(this.first3);
   
-}
-  
+  }
+
+  onPageChange(event: PageEvent) {
+    this.page = event;
+    this.ObterProdutos();
+  }
 }
 
 

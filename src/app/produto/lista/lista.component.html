@@ -73,9 +73,9 @@
 		</div>
 	</div>
 </div>
-<div class="card flex justify-content-center">
-    <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="120" [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
-</div>
+<p-paginator (onPageChange)="onPageChange($event)" [first]="page.first" [rows]="page.rows" [totalRecords]="totalRecords"
+            [showFirstLastIcon]="false" [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}">
+</p-paginator>
 
 
 
