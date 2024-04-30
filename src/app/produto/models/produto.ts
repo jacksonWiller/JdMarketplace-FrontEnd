@@ -23,22 +23,8 @@ export interface Categoria{
   nome: string,
 }
 
-export interface ApiResponse<T> {
-  result: T;
-  success: boolean;
-  successMessage: string;
-  statusCode: number;
-  errors: any[];
-}
-
 export class ProdutosResponse {
   produtos: Produto[];
   total: number;
   pagina: number
-}
-
-
-export interface Pagina {
-  quantidade: number;
-  pagina: number;
 }

@@ -5,8 +5,9 @@ import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
 import { BaseService } from 'src/app/services/base.service';
-import { Produto, Fornecedor, ApiResponse, ProdutosResponse, Pagina } from '../models/produto';
+import { Produto, Fornecedor, ProdutosResponse} from '../models/produto';
 import { environment } from "src/environments/environment";
+import { ApiResponse, Pagina } from "src/app/models/ApiResponce";
 
 @Injectable()
 export class ProdutoService extends BaseService {
@@ -20,15 +21,30 @@ export class ProdutoService extends BaseService {
     //         .pipe(catchError(super.serviceError));
     // }
 
-    obterTodos(pagina: Pagina): Observable<ApiResponse<ProdutosResponse>> {
+    obterTodos(pagina: any): Observable<ApiResponse<ProdutosResponse>> {
         const params = new HttpParams()
             .set('QuantidadeItens', pagina.quantidade.toString())
-            .set('Pagina', pagina.pagina.toString());
+            .set('Pagina', pagina.pagina.toString())
+            .set('Pesquisa', pagina.pesquisa.toString())
+            .set('OrdenacaoCamposProdutosDto', pagina.campo)
+            .set('Ordenacao', pagina.ordem)
+            ;
     
         return this.http
             .get<ApiResponse<ProdutosResponse>>(`${this.UrlServiceV1}produto/obter-todos`, {
                 headers: this.ObterAuthHeaderJson(),
                 params: params
+            })
+            .pipe(
+                catchError(super.serviceError)
+            );
+    }
+
+    listarOrdenacaoCampos(): Observable<string[]> {
+        
+        return this.http
+            .get<string[]>(`${this.UrlServiceV1}produto/listar-ordenacao-campos-produto`, {
+                headers: this.ObterAuthHeaderJson(),
             })
             .pipe(
                 catchError(super.serviceError)
