@@ -1,15 +1,21 @@
+
 <div class="grid">
 	<div class="col-12">
 		<div class="card">
+            <p-breadcrumb class="max-w-full border border-primary" [model]="items" [home]="home"></p-breadcrumb>
 			<h5>Produtos</h5>
 			<p-dataView #dv [value]="produtos"  [rows]="9" filterBy="name">
 				<ng-template pTemplate="header">
 					<div class="flex flex-column md:flex-row md:justify-content-between gap-2">
-                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-						<p-dropdown formControlName="selectedCity" (onChange)="onCityChange($event)" [options]="camposOrdenacao" optionLabel="name" placeholder="Select a City"></p-dropdown>
-						<span class="p-input-icon-left">
+                        <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+						<p-dropdown (onChange)="onCityChange($event)" [options]="camposOrdenacao" optionLabel="name" placeholder="Selecione um Campo"></p-dropdown>
+						<p-button [rounded]="true" (click)="toggleOrdem()">
+                            <i *ngIf="ordem === 0" class="pi pi-sort-down"></i>
+                            <i *ngIf="ordem === 1" class="pi pi-sort-up"></i>
+                        </p-button>
+                        <span class="p-input-icon-left sm:12">
                             <i class="pi pi-search"></i>
-                            <input type="search" pInputText placeholder="Search by Name" (input)="onFilter($event)">
+                            <input type="search" pInputText placeholder="" (input)="onFilter($event)">
                         </span>	
 					</div>
 				</ng-template>

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 
 import { Observable } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { catchError, map, tap } from "rxjs/operators";
 
 import { BaseService } from 'src/app/services/base.service';
 import { Produto, Fornecedor, ProdutosResponse} from '../models/produto';
@@ -51,18 +51,36 @@ export class ProdutoService extends BaseService {
             );
     }
 
+    novoProduto(produto: Produto): Observable<ApiResponse<Produto>> {
+        return this.http
+          .post<ApiResponse<Produto>>(`${this.UrlServiceV1}produto/criar`, produto)
+          .pipe(
+            map(response => {
+              console.log('Data before extraction:', response);
+              return response;
+            }),
+            catchError(this.serviceError));
+      }
+
+      adicionarImagemProduto(imagem: File, idProduto: string): Observable<ApiResponse<any>> {
+        const formData = new FormData();
+        formData.append('file', imagem);
+      
+        return this.http
+          .put<ApiResponse<any>>(`${this.UrlServiceV1}produto/editar-imagens-produto/${idProduto}`, formData)
+          .pipe(
+            map(response => {
+              console.log('Resposta da adição de imagem:', response);
+              return response;
+            }),
+            catchError(this.serviceError));
+      }
+
+
     obterPorId(id: string): Observable<Produto> {
         return this.http
             .get<Produto>(this.UrlServiceV1 + "produto/" + id)
             .pipe(catchError(super.serviceError));
-    }
-
-    novoProduto(produto: Produto): Observable<Produto> {
-        return this.http
-            .post("http://localhost:5001/api/produto/criar", produto)
-            .pipe(
-                map(super.extractData),
-                catchError(super.serviceError));
     }
 
     atualizarProduto(produto: Produto): Observable<Produto> {

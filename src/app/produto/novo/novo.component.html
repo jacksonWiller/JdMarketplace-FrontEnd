@@ -1,88 +1,60 @@
-<div class="grid p-fluid">
-	<div class="col-12 md:col-6">
-		<div class="card">
-			<h5>InputText</h5>
-			<div class="grid formgrid">
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<input type="text" pInputText placeholder="Default">
-				</div>
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<input type="text" pInputText placeholder="Disabled" [disabled]="true"/>
-				</div>
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<input type="text" pInputText placeholder="Invalid" class="ng-dirty ng-invalid"/>
-				</div>
-			</div>
+<p-toast></p-toast>
+<div class="card">
+    <h5>Advanced</h5>
+    <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
+            multiple="multiple" accept="image/*" maxFileSize="1000000">
+            <ng-template pTemplate="content">
+                <ul *ngIf="uploadedFiles.length">
+                    <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                </ul>
+            </ng-template>
+    </p-fileUpload>
 
-			<h5>Icons</h5>
-			<div class="grid formgrid">
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<span class="p-input-icon-left">
-						<i class="pi pi-user"></i>
-						<input type="text" pInputText placeholder="Username"/>
-					</span>
-				</div>
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<span class="p-input-icon-right">
-						<input type="text" pInputText placeholder="Search"/>
-						<i class="pi pi-search"></i>
-					</span>
-				</div>
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<span class="p-input-icon-left p-input-icon-right">
-						<i class="pi pi-user"></i>
-						<input type="text" pInputText placeholder="Search"/>
-						<i class="pi pi-search"></i>
-					</span>
-				</div>
-			</div>
-
-			<h5>Float Label</h5>
-			<span class="p-float-label">
-				<input id="float-input" type="text" pInputText>
-				<label for="float-input">Username</label>
-			</span>
-
-			<h5>Textarea</h5>
-			<textarea rows="5" cols="30" placeholder="Your Message" pInputTextarea></textarea>
-
-			<h5>AutoComplete</h5>
-			<p-autoComplete field="name" [dropdown]="true">
-			</p-autoComplete>
-
-			<h5>Calendar</h5>
-			<p-calendar [showIcon]="true" inputId="icon"></p-calendar>
-
-			<h5>InputNumber</h5>
-			<p-inputNumber mode="decimal" [showButtons]="true" [min]="0" [max]="100">
-			</p-inputNumber>
-
-			<h5>Chips</h5>
-			<p-chips></p-chips>
-		</div>
-
-		<div class="card">
-            <div class="grid">
-                <div class="col-12">
-                    <h5>Slider</h5>
-                    <input type="text" pInputText readonly/>
-                    <p-slider ></p-slider>
-                </div>
-                <div class="col-12 md:col-6">
-                    <h5>Rating</h5>
-                    <p-rating></p-rating>
-                </div>
-                <div class="col-12 md:col-6">
-                    <h5>ColorPicker</h5>
-                    <p-colorPicker ></p-colorPicker>
-                </div>
-                <div class="col-12">
-                    <h5>Knob</h5>
-                    <p-knob  valueTemplate="{value}%" [step]="10" [min]="-50" [max]="50"></p-knob>
-                </div>
-            </div>
-		</div>
-	</div>
-
-	
 </div>
+
+<div class="grid p-fluid">
+	<div class="col-12 md:col-12">
+	  <div class="card">
+		<!-- <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" alt="Image" width="250" [preview]="true"></p-image> -->
+		<form [formGroup]="formulario" (ngSubmit)="adicionarProduto()">
+		  <!-- <h5>Nome</h5> -->
+
+		  <input #Image type="file" (change)="handleFileInput($event.target.files)"/>
+			<img width="100%" *ngIf="imageUrl" [src]="imageUrl" class="image">
+		  <span class="p-float-label">
+			<br/>
+			<input id="nome-input" type="text" pInputText formControlName="nome">
+			<label for="nome-input">Nome</label>
+		  </span>
+		  <div *ngIf="formulario.get('nome').invalid && formulario.get('nome').dirty" class="p-error">
+			Nome é obrigatório e precisa ter pelo menos 3 caracteres.
+		  </div>
+		  <br/>
+		  <!-- <h5>Descrição</h5> -->
+		  <span class="p-float-label">
+			<input id="descricao-input" type="text" pInputText formControlName="descricao">
+			<label for="descricao-input">Descrição</label>
+		  </span>
+		  <br/>
+  
+		  <!-- <h5>Objetivo</h5> -->
+		  <textarea rows="5" cols="30" placeholder="Objetivo" pInputTextarea formControlName="objetivo"></textarea>
+		  <br/>
+		  <br/>
+		  <!-- <h5>Preço</h5> -->
+		  <span class="p-float-label">
+			<input id="preco-input" type="number" pInputText formControlName="preco">
+			<label for="preco-input">Preço</label>
+		  </span>
+		  <br/>
+		  <div *ngIf="formulario.get('preco').invalid && formulario.get('preco').dirty" class="p-error">
+			Preço é obrigatório e precisa ser um número válido.
+		  </div>
+		  <br/>
+  
+		  <button pButton pRipple label="Voltar" icon="pi pi-arrow-left" class="p-button-success mr-2"></button>
+		  <button pButton pRipple label="Novo" type="submit" icon="pi pi-plus" class="p-button-success mr-2"></button>
+		</form>
+	  </div>
+	</div>
+  </div>

@@ -5,6 +5,7 @@ import { FormBuilder, Validators, FormControlName, FormGroup } from '@angular/fo
 import { Router } from '@angular/router';
 import { environment } from "src/environments/environment";
 import { Pagina } from 'src/app/models/ApiResponce';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-lista',
@@ -25,7 +26,6 @@ export class ListaComponent implements OnInit {
   };
 
   cities: any[] | undefined;
-
 
   totalRecords: number;
 
@@ -50,6 +50,11 @@ export class ListaComponent implements OnInit {
       this.visible = true;
   }
 
+  openNew() {
+    this.router.navigate(['/produto/novo']);
+  }
+
+
   closeDialog() {
     this.visible = false;
   } 
@@ -59,21 +64,24 @@ export class ListaComponent implements OnInit {
   selectedCity: any;
 
   ordem: number = 0;
+
+
+  toggleOrdem() {
+    this.ordem = this.ordem === 0 ? 1 : 0;
+    this.ObterProdutos();
+  }
+
   ultimaCidadeSelecionada: any = null;
 
   onCityChange(event) {
     if (this.ultimaCidadeSelecionada && this.ultimaCidadeSelecionada.name === event.value.name && this.ordem === 0) {
-      // A mesma cidade foi selecionada novamente
       this.ordem = 1;
     } else {
-      // Uma cidade diferente foi selecionada ou é a primeira seleção
       this.ordem = 0;
     }
   
-    // Atualize a última cidade selecionada
     this.ultimaCidadeSelecionada = event.value;
   
-    // Chame ObterProdutos e passe ordem como parâmetro
     this.ObterProdutos();
     console.log(this.ordem);
   }
@@ -100,8 +108,7 @@ export class ListaComponent implements OnInit {
   ObterProdutos() {
  
     const campo = this.selectedCity?.numero ?? 0;
-  
-    // Defina os parâmetros, incluindo a verificação de campo
+
     const params: any = {
       quantidade: this.page.rows,
       pagina: this.page.page,
@@ -110,10 +117,6 @@ export class ListaComponent implements OnInit {
       ordem: this.ordem
     };
   
-    // Remova o console.log se não for mais necessário
-    // console.log(this.selectedCity?.numero);
-  
-    // Chame o serviço obterTodos com os parâmetros
     this.produtoService.obterTodos(params)
       .subscribe(
         response => {
@@ -175,14 +178,16 @@ export class ListaComponent implements OnInit {
     }
   }
 
-  list: string[] = ['teste', 'tffdsfds'];
-
   transformToCities(list: string[]): { name: string; numero: number }[] {
     return list.map((item, index) => ({
       name: item,
       numero: index
     }));
   }
+
+  items: MenuItem[] | undefined;
+
+  home: MenuItem | undefined;
 
   ngOnInit(): void {
     this.pForm = this.fb.group({
@@ -195,14 +200,12 @@ export class ListaComponent implements OnInit {
     this.ListarOrdenacaoCampos();
 
 
+    this.items = [
+      { label: 'Produto', routerLink: '/produto/listar' }, 
+      // { label: 'Novo', routerLink: '/produto/novo'  }
+    ];
 
-    this.cities = [
-      { name: 'New York', code: 'NY' },
-      { name: 'Rome', code: 'RM' },
-      { name: 'London', code: 'LDN' },
-      { name: 'Istanbul', code: 'IST' },
-      { name: 'Paris', code: 'PRS' }
-  ];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
 
   }
 
@@ -211,8 +214,6 @@ export class ListaComponent implements OnInit {
     this.ObterProdutos();
   }
 }
-
-
 interface PageEvent {
   first: number;
   rows: number;

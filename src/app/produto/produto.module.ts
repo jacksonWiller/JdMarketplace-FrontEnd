@@ -223,7 +223,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   providers: [
     ProdutoService,
     ProdutoResolve,
-    ProdutoGuard
+    ProdutoGuard,
+    [MessageService]
   ]
 })
 export class ProdutoModule { }
